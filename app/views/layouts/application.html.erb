@@ -23,6 +23,28 @@
   </head>
 
   <body>
+    <header class="header">
+      <div class="header__container">
+        <div class="header__logo">
+          <h1>STACK→READ</h1>
+        </div>
+        <nav class="header__nav">
+          <ul class="header__nav-list">
+            <li class="header__nav-item">
+              <a href="" class="header__nav-link">新規登録</a>
+            </li>
+            <li class="header__nav-item">
+              <a href="" class="header__nav-link">ログイン</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
     <%= yield %>
+    <footer class="footer">
+     <div class="footer__container">
+      <p class="footer__copyright">&copy; 2024 Stack Read. All rights reserved.</p>
+    </div>
+    </footer> 
   </body>
 </html>

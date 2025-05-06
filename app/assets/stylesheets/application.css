@@ -8,3 +8,91 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+/* Header */
+.header {
+    background-color: #2e78cc;
+    box-shadow: 0 2px 4px rgba(40, 130, 255, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    color: #ffffff;
+}
+
+.header__container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.header__logo {
+    grid-column: 2;
+    text-align: center;
+    font-family: "Gill Sans",sans-serif;
+    font-weight: 200;
+
+}
+
+.header__nav-list {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header__nav-link {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    border: 1px solid #ffffff;
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+}
+
+.header__nav {
+    grid-column: 3;
+    /* 右端に配置 */
+    justify-self: end;
+}
+
+.header__nav-link:hover {
+    background-color: #395180;
+}
+
+body {
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.footer {
+    background-color: #2e78cc;
+    color: #fff;
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+.footer__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.footer__copyright {
+    margin: 0;
+    font-size: 0.875rem;
+}
