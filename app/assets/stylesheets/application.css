@@ -46,11 +46,16 @@
 
 .header__nav-link {
     text-decoration: none;
+    background-color: #2e78cc;
     color: #ffffff;
     font-weight: 500;
     transition: color 0.3s ease;
     border: 1px solid #ffffff;
-    padding: 1rem 2rem;
+    display: flex;
+    height: 60px;
+    width: 160px;
+    align-items: center;
+    justify-content: center;
     font-size: 1.5rem;
 }
 
@@ -64,6 +69,8 @@
     background-color: #395180;
 }
 
+
+
 body {
     font-size: 1.2rem;
     margin: 0;
@@ -74,6 +81,7 @@ body {
 }
 
 main {
+    margin-top: 5rem;
     flex: 1;
 }
 
