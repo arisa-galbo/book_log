@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_07_140740) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_30_230509) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "books", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.string "author", null: false
+    t.integer "progress_status", default: 0, null: false
+    t.string "isbn"
+    t.date "published_date"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["author"], name: "index_books_on_author"
+    t.index ["isbn"], name: "index_books_on_isbn", unique: true
+    t.index ["progress_status"], name: "index_books_on_progress_status"
+    t.index ["title"], name: "index_books_on_title"
+    t.index ["user_id", "title", "author"], name: "index_books_on_user_title_author", unique: true
+    t.index ["user_id"], name: "index_books_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -25,4 +43,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_07_140740) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "books", "users"
 end

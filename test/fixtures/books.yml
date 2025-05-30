@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  title: サンプル本1
+  author: 著者1
+  progress_status: 0 # unread
+  isbn: "9784000000001"
+  description: これはサンプル本の説明文です。
+
+two:
+  user: two
+  title: サンプル本2
+  author: 著者2
+  progress_status: 1 # reading
+  isbn: "9784000000002"
+  description: これはもう一つのサンプル本の説明文です。
