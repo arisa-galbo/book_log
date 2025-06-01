@@ -1,0 +1,106 @@
+<% content_for :title, @book.title %>
+
+<div class="book-detail-container">
+  <main class="main-content">
+    <div class="book-form-wrapper">
+      <%= form_with model: @book, local: true, class: "book-form" do |f| %>
+        <div class="form-group">
+          <%= f.label :title, "書籍名", class: "form-label" %>
+          <%= f.text_field :title, class: "form-input", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :author, "著者名", class: "form-label" %>
+          <%= f.text_field :author, class: "form-input", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :published_date, "初版年", class: "form-label" %>
+          <%= f.date_field :published_date, class: "form-input", readonly: true %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :description, "概要", class: "form-label" %>
+          <%= f.text_area :description, class: "form-textarea", rows: 4, readonly: true %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- 登録情報セクション -->
+    <div class="book-info-section">
+      <div class="section-header">
+        <h3 class="section-title">登録情報</h3>
+        <div class="action-buttons">
+          <%= link_to "削除", @book, method: :delete, 
+                      confirm: "本当に削除しますか？", 
+                      class: "delete-button" %>
+          <%= link_to "編集", edit_book_path(@book), class: "edit-button" %>
+        </div>
+      </div>
+
+      <div class="info-list">
+        <div class="info-item">
+          <span class="info-label">登録日:</span>
+          <span class="info-value"><%= @book.created_at.strftime("%Y/%m/%d") %></span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">状態:</span>
+          <span class="status-badge reading">
+            <%= case @book.progress_status
+                when 'unread' then '未読'
+                when 'reading' then '読書中'
+                when 'completed' then '読了'
+                end %>
+          </span>
+          <span class="info-date"><%= @book.updated_at.strftime("%Y/%m/%d") %></span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">進捗:</span>
+          <span class="status-badge progress">
+            <%= case @book.progress_status
+                when 'unread' then '未読'
+                when 'reading' then '読書中'
+                when 'completed' then '読了'
+                end %>
+          </span>
+          <span class="info-date"><%= @book.updated_at.strftime("%Y/%m/%d") %></span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">媒体:</span>
+          <span class="media-badge">紙</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">登録タグ:</span>
+          <div class="tags">
+            <span class="tag">小説</span>
+            <span class="tag">歴史系</span>
+            <span class="tag">週末に読む</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 関連メモセクション -->
+    <div class="memo-section">
+      <div class="section-header">
+        <h3 class="section-title">関連メモ</h3>
+        <%= link_to "投稿作成", "#", class: "create-memo-button" %>
+      </div>
+
+      <div class="memo-list">
+        <div class="memo-item">
+          <span class="memo-title">偶然書店で発見</span>
+          <span class="memo-date">2025/2/1</span>
+        </div>
+        <div class="memo-item">
+          <span class="memo-title">なかなか面白い</span>
+          <span class="memo-date">2025/2/6</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div> 

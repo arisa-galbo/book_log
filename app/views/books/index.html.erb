@@ -1,0 +1,52 @@
+<% content_for :title, "my 積読" %>
+
+<div class="books-index-container">
+  <main class="main-content">
+    <div class="filter-section">
+      <%= form_with url: books_path, method: :get, local: true, class: "filter-form" do |f| %>
+        <%= f.select :progress_status, 
+                     options_for_select([
+                       ['すべて', ''],
+                       ['未読', 'unread'],
+                       ['読書中', 'reading'],
+                       ['読了', 'completed']
+                     ], params[:progress_status]), 
+                     {}, 
+                     { class: "filter-select", onchange: "this.form.submit();" } %>
+        <%= f.text_field :search, placeholder: "タイトルで検索", 
+                        value: params[:search], class: "search-input" %>
+        <%= f.submit "検索", class: "search-button" %>
+      <% end %>
+    </div>
+
+    <div class="books-grid">
+      <% @books.each do |book| %>
+        <div class="book-card">
+          <%= link_to book, class: "book-link" do %>
+            <div class="book-info">
+              <h3 class="book-title"><%= book.title %></h3>
+              <p class="book-author"><%= book.author %></p>
+              <div class="book-meta">
+                <span class="progress-status <%= book.progress_status %>">
+                  <%= case book.progress_status
+                      when 'unread' then '未読'
+                      when 'reading' then '読書中'
+                      when 'completed' then '読了'
+                      end %>
+                </span>
+                <span class="book-date"><%= book.created_at.strftime("%Y/%m/%d") %></span>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <% if @books.empty? %>
+      <div class="empty-state">
+        <p>まだ本が登録されていません。</p>
+        <%= link_to "最初の本を登録する", new_book_path, class: "submit-button" %>
+      </div>
+    <% end %>
+  </main>
+</div> 

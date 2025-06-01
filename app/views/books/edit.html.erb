@@ -1,0 +1,11 @@
+<% content_for :title, "#{@book.title} - 編集" %>
+
+<div class="book-form-container">
+  <main class="main-content">
+    <div class="book-form-wrapper">
+      <h2 class="page-title">本の編集</h2>
+      
+      <%= render 'form', book: @book, submit_text: '更新する', cancel_path: @book %>
+    </div>
+  </main>
+</div> 

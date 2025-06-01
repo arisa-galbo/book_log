@@ -25,6 +25,12 @@
   <body>
     <header class="header">
       <div class="header__container">
+        <% if user_signed_in? %>
+          <nav class="nav-links">
+            <%= link_to "積読追加", new_book_path, class: "header__nav-link" %>
+            <%= link_to "my 積読", books_path, class: "header__nav-link" %>
+          </nav>
+        <% end %>
         <div class="header__logo">
           <%= link_to root_path do %>
             <svg width="146" height="35" viewBox="0 0 146 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,6 +44,8 @@
               <li class="header__nav-item">
                 <%= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: "header__nav-link", form: { "data-turbo": false } %>
               </li>
+              <nav class="header__nav-links">
+          </nav>
             <% else %>
               <li class="header__nav-item">
                 <%= link_to '新規登録', new_user_registration_path, class: "header__nav-link" %>
