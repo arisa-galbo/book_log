@@ -1,0 +1,67 @@
+<% content_for :title, "#{@book.title} のメモ" %>
+
+<div class="container">
+  <div class="header-section">
+    <h1><%= @book.title %> のメモ</h1>
+    <%= link_to "本の詳細に戻る", book_path(@book), class: "btn btn-secondary" %>
+  </div>
+
+  <div class="memo-form-section">
+    <h2>新しいメモを追加</h2>
+    <%= form_with model: [@book, @memo], local: true do |form| %>
+      <% if @memo.errors.any? %>
+        <div class="error-messages">
+          <ul>
+            <% @memo.errors.full_messages.each do |message| %>
+              <li class="error"><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= form.label :content, "メモ内容" %>
+        <%= form.text_area :content, rows: 4, placeholder: "読書メモを入力してください..." %>
+      </div>
+
+      <div class="form-group">
+        <%= form.check_box :is_public %>
+        <%= form.label :is_public, "このメモを公開する" %>
+      </div>
+
+      <div class="form-actions">
+        <%= form.submit "メモを保存", class: "btn btn-primary" %>
+        <%= link_to "キャンセル", book_path(@book), class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="memos-list">
+    <h2>メモ一覧</h2>
+    <% if @memos.any? %>
+      <% @memos.each do |memo| %>
+        <div class="memo-item">
+          <div class="memo-content">
+            <%= simple_format(memo.content) %>
+          </div>
+          <div class="memo-meta">
+            <span class="memo-date"><%= memo.created_at.strftime("%Y年%m月%d日") %></span>
+            <span class="memo-visibility">
+              <%= memo.is_public? ? "公開" : "非公開" %>
+            </span>
+            <% if memo.user == current_user %>
+              <div class="memo-actions">
+                <span class="memo-note">メモの編集は本の詳細ページで行えます</span>
+                <%= button_to "削除", book_memo_path(@book, memo), method: :delete, 
+                    confirm: "本当に削除しますか？", class: "btn btn-sm btn-danger",
+                    form: { style: "display: inline;" } %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <p class="no-memos">まだメモがありません。</p>
+    <% end %>
+  </div>
+</div> 

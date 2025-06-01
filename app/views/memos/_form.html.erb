@@ -1,0 +1,48 @@
+<% compact ||= false %>
+<% inline_edit ||= false %>
+<% memo ||= @memo %>
+
+<div class="quick-memo-form">
+  <%= form_with model: [@book, memo], local: true, class: "memo-form" do |form| %>
+    <% if memo.errors.any? %>
+      <div class="error-messages">
+        <ul>
+          <% memo.errors.full_messages.each do |message| %>
+            <li class="error"><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <% unless compact %>
+        <%= form.label :content, "メモ内容", class: "form-label" %>
+      <% end %>
+      <%= form.text_area :content, 
+          placeholder: "読書メモを入力してください...", 
+          rows: (compact ? 3 : 6), 
+          class: "memo-textarea" %>
+    </div>
+
+    <div class="memo-form-actions">
+      <div class="checkbox-group">
+        <%= form.check_box :is_public, class: "memo-checkbox" %>
+        <%= form.label :is_public, (compact ? "公開する" : "このメモを公開する"), class: "checkbox-label" %>
+      </div>
+      
+      <div class="button-group">
+        <%= form.submit (memo.persisted? ? "メモを更新" : "メモを保存"), 
+            class: "save-memo-button" %>
+        <% unless compact && !inline_edit %>
+          <% if inline_edit %>
+            <button type="button" class="cancel-memo-button" data-action="click->memo-edit#toggleEdit">キャンセル</button>
+          <% else %>
+            <%= link_to "キャンセル", 
+                (memo.persisted? ? book_memos_path(@book) : book_path(@book)), 
+                class: "cancel-memo-button" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div> 

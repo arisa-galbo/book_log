@@ -10,8 +10,10 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Books routes
-  resources :books
+  # Books routes with nested memos
+  resources :books do
+    resources :memos, only: [ :index, :create, :update, :destroy ]
+  end
 
   # Defines the root path route ("/")
   root "home#index"

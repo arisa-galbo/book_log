@@ -31,9 +31,10 @@
       <div class="section-header">
         <h3 class="section-title">登録情報</h3>
         <div class="action-buttons">
-          <%= link_to "削除", @book, method: :delete, 
-                      confirm: "本当に削除しますか？", 
-                      class: "delete-button" %>
+          <%= button_to "削除", @book, method: :delete, 
+                        confirm: "本当に削除しますか？", 
+                        class: "delete-button",
+                        form: { style: "display: inline;" } %>
           <%= link_to "編集", edit_book_path(@book), class: "edit-button" %>
         </div>
       </div>
@@ -86,20 +87,56 @@
 
     <!-- 関連メモセクション -->
     <div class="memo-section">
-      <div class="section-header">
-        <h3 class="section-title">関連メモ</h3>
-        <%= link_to "投稿作成", "#", class: "create-memo-button" %>
-      </div>
+      <!-- 簡単メモ作成フォーム -->
+      <%= render 'memos/form', compact: true %>
 
+      <!-- メモ一覧表示 -->
       <div class="memo-list">
-        <div class="memo-item">
-          <span class="memo-title">偶然書店で発見</span>
-          <span class="memo-date">2025/2/1</span>
-        </div>
-        <div class="memo-item">
-          <span class="memo-title">なかなか面白い</span>
-          <span class="memo-date">2025/2/6</span>
-        </div>
+        <% if @memos.any? %>
+          <% @memos.each do |memo| %>
+            <div class="memo-item" data-controller="memo-edit" data-memo-id="<%= memo.id %>">
+              <!-- 表示モード -->
+              <div class="memo-content" data-memo-edit-target="display">
+                <p class="memo-text"><%= simple_format(truncate(memo.content, length: 150)) %></p>
+                <div class="memo-meta">
+                  <span class="memo-date"><%= memo.created_at.strftime("%Y年%m月%d日") %></span>
+                  <span class="memo-visibility <%= memo.is_public? ? 'public' : 'private' %>">
+                    <%= memo.is_public? ? "公開" : "非公開" %>
+                  </span>
+                  <% if memo.user == current_user %>
+                    <div class="memo-item-actions">
+                      <button class="memo-edit-link" data-action="click->memo-edit#toggleEdit">編集</button>
+                      <%= button_to "削除", book_memo_path(@book, memo), 
+                          method: :delete, 
+                          confirm: "このメモを削除しますか？",
+                          class: "memo-delete-link",
+                          form: { style: "display: inline;" } %>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              
+              <!-- 編集モード -->
+              <% if memo.user == current_user %>
+                <div class="memo-edit-form" data-memo-edit-target="edit" style="display: none;">
+                  <%= render 'memos/form', memo: memo, compact: true, inline_edit: true %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+          
+          <% if @book.memos.count > 5 %>
+            <div class="memo-more">
+              <%= link_to "さらに表示（全#{@book.memos.count}件）", book_memos_path(@book), 
+                  class: "view-more-link" %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="no-memos">
+            <p class="no-memos-text">まだメモがありません。</p>
+            <p class="no-memos-suggestion">上のフォームから最初のメモを作成してみましょう。</p>
+          </div>
+        <% end %>
       </div>
     </div>
   </main>

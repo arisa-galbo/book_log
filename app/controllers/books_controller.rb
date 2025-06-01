@@ -9,6 +9,8 @@ class BooksController < ApplicationController
   end
 
   def show
+    @memos = @book.memos.includes(:user).recent.limit(5)
+    @memo = @book.memos.build
   end
 
   def new
