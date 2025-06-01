@@ -7,4 +7,5 @@ class User < ApplicationRecord
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   has_many :books, dependent: :destroy
+  has_many :memos, dependent: :destroy
 end

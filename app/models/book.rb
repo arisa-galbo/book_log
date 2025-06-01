@@ -16,6 +16,8 @@ class Book < ApplicationRecord
   # 同じユーザーが同じタイトル・著者の本を重複して登録することを防ぐ
   validates :title, uniqueness: { scope: [ :user_id, :author ], message: "この本は既に登録されています" }
 
+  has_many :memos, dependent: :destroy
+
   scope :by_progress_status, ->(status) { where(progress_status: status) }
   scope :search_by_title, ->(query) { where("title ILIKE ?", "%#{query}%") }
   scope :search_by_author, ->(query) { where("author ILIKE ?", "%#{query}%") }
