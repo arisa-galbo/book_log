@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
   # Books routes with nested memos
   resources :books do
+    collection do
+      get :search_by_isbn
+    end
     resources :memos, only: [ :index, :create, :update, :destroy ]
   end
 
